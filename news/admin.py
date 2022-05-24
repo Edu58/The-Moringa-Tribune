@@ -4,7 +4,8 @@ from .models import Article, Editor, Tags
 
 # Register your models here.
 class ArticleAdmin(admin.ModelAdmin):
-    filter_horizontal = ('Tags',)
+    filter_horizontal = ('tags',)
 
 
-admin.site.register([Article, Editor, Tags])
+admin.site.register([Editor, Tags])
+admin.site.register(Article, ArticleAdmin)
