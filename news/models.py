@@ -41,3 +41,8 @@ class Article(models.Model):
         today = dt.date.today()
         news = cls.objects.filter(pub_date__date=today)
         return news
+
+    @classmethod
+    def days_news(cls, date):
+        news = Article.objects.filter(pub_date__date=date)
+        return news
