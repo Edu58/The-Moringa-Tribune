@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 import datetime as dt
+from .models import Article
 
 
 # Create your views here.
 def news_of_the_day(request):
     date = dt.date.today()
-    return render(request, 'news/today-news.html', {"date": date})
+    news = Article.todays_news()
+    return render(request, 'news/today-news.html', {"date": date, 'news': news})
 
 
 def convert_dates(dates):
@@ -32,4 +34,5 @@ def past_days_news(request, past_date):
     if date == dt.date.today():
         return redirect(news_of_the_day)
 
-    return render(request, 'news/past-news.html', {"date": date})
+    news = Article.days_news(date)
+    return render(request, 'news/past-news.html', {"date": date, 'news': news})
