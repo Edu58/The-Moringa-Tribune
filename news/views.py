@@ -1,10 +1,24 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404
+from django.http import Http404
 import datetime as dt
 from .models import Article
 
 
 # Create your views here.
+def all_news(request):
+    news = Article.objects.all()
+    return render(request, 'news/all-news.html', {'news': news})
+
+
+def article(request, article_id):
+    try:
+        article = Article.objects.get(id=article_id)
+    except ObjectDoesNotExist:
+        raise Http404()
+    return render(request, 'news/article.html', {'article': article})
+
+
 def news_of_the_day(request):
     date = dt.date.today()
     news = Article.todays_news()
@@ -36,3 +50,14 @@ def past_days_news(request, past_date):
 
     news = Article.days_news(date)
     return render(request, 'news/past-news.html', {"date": date, 'news': news})
+
+
+def search(request):
+    if 'article' in request.GET and request.GET['article']:
+        search_term = request.GET['article']
+        searched_articles = Article.search_by_title(search_term)
+        message = f'{search_term}'
+        return render(request, 'news/search.html', {'message': message, 'articles': searched_articles})
+    else:
+        message = "You haven't search for anything"
+        return render(request, 'news/search.html', {'message': message})

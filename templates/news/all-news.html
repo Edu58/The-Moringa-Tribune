@@ -1,13 +1,12 @@
-{% extends 'news/base.html' %}
+{%extends 'news/base.html'%}
 
 {% block content %}
-{{ block.super }}
 <div class="container mx-auto">
     <div class="row mx-auto">
         {% for news_item in news %}
         <div class="col-sm-6 col-md-4 my-2">
             <div class="card" style="width: 18rem;">
-                {% if news_item.article_img.url %}
+                {% if news_item.article_img %}
                 <img src="{{ news_item.article_img.url }}" class="card-img-top" alt="{{ news_item.title }}">
                 {% endif %}
                 <div class="card-body">
@@ -16,11 +15,11 @@
                     <p>
                         <small>by @{{ news_item.editor.first_name }}</small>
                     </p>
-                    <a href="#" class="btn btn-primary">Read</a>
+                    <a href="{% url 'article' news_item.id %}" class="btn btn-primary">Read</a>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
-{% endblock content %}
+{% endblock %}
