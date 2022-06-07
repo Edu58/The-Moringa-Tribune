@@ -8,7 +8,9 @@ urlpatterns = [
     path('article/<int:article_id>', views.article, name='article'),
     path('today/', views.news_of_the_day, name='today'),
     path('archives/<past_date>', views.past_days_news, name='pastNews'),
-    path('search/', views.search, name='search')
+    path('search/', views.search, name='search'),
+    path('new_article/', views.new_article, name='new_article'),
+    path('ajax/newsletter/', views.newletter, name='newsletter'),
 ]
 
 if settings.DEBUG:

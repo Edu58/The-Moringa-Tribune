@@ -8,15 +8,32 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            {% if user.is_authenticated %}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{%  url 'today' %}">Home</a>
+                    <a class="nav-link active" aria-current="page" href="{%  url 'all_news' %}">Home</a>
+                </li>
+                <li>
+                    <a href="{%url 'new_article'%}">Create</a>
+                </li>
+                <li>
+                    <a class='btn btn-success text-decoration-none text-light' href="/accounts/logout">Logout</a>
                 </li>
             </ul>
             <form class="d-flex" action="{%  url 'search' %}">
                 <input class="form-control me-2" name="article" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-success" type="submit">Search</button>
             </form>
+            {% else %}
+            <ul class="d-flex">
+                <li>
+                    <a class='btn btn-success text-decoration-none text-light' href="/accounts/login">Login</a>
+                </li>
+                <li>
+                    <a class='btn btn-primary text-decoration-none text-light' href="/accounts/register">Signup</a>
+                </li>
+            </ul>
+            {% endif %}
         </div>
     </div>
 </nav>

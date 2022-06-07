@@ -11,7 +11,11 @@
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ news_item.title }}</h5>
-                    <p class="card-text">{{ news_item.post|truncatechars:110 }}</p>
+                    <p class="card-text">
+                        {% autoescape on %}
+                        {{ news_item.post|truncatechars:110 | safe }}
+                        {% endautoescape %}
+                    </p>
                     <p>
                         <small>by @{{ news_item.editor.first_name }}</small>
                     </p>

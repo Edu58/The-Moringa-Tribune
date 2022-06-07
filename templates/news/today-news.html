@@ -1,8 +1,18 @@
 {% extends 'news/base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
 
 {% block content %}
 {{ block.super }}
 <div class="container mx-auto">
+
+    <form method="post" action="{% url 'today' %}">
+        {% csrf_token %}
+        {% bootstrap_form_errors form layout='inline' %}
+        {% bootstrap_form form layout='inline' %}
+        <button type="submit" class="btn btn-success">Subscribe</button>
+    </form>
+
     <div class="row mx-auto">
         {% for news_item in news %}
         <div class="col-sm-6 col-md-4 my-2">
@@ -12,15 +22,24 @@
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ news_item.title }}</h5>
-                    <p class="card-text">{{ news_item.post|truncatechars:110 }}</p>
+                    <p class="card-text">
+                        {% autoescape on %}
+                        {{ news_item.post|truncatechars:110 | safe }}
+                        {% endautoescape %}
+                    </p>
                     <p>
                         <small>by @{{ news_item.editor.first_name }}</small>
                     </p>
-                    <a href="#" class="btn btn-primary">Read</a>
+                    <a href="{% url 'article' news_item.id %}" class="btn btn-primary">Read</a>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
+
+{% block scripts %}
+{{block.super}}
+<script src="{% static 'js/newsletter.js' %}"></script>
+{% endblock scripts %}
 {% endblock content %}
